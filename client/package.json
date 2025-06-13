@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.0.2",
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
     "@angular/core": "^20.0.0",
@@ -36,8 +37,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.8.2"
   },
-  "overrides":{
-    "ngx-bootstrap":{
+  "overrides": {
+    "ngx-bootstrap": {
       "@angular/common": "$@angular/common",
       "@angular/core": "$@angular/core",
       "@angular/forms": "$@angular/forms",
