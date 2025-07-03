@@ -1,0 +1,67 @@
+.not-found-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    gap: 40px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+  }
+  
+  .not-found-image img {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+  }
+  
+  .not-found-content {
+    max-width: 500px;
+    text-align: left;
+  }
+  
+  .error-code {
+    font-size: 100px;
+    color: #ff4c4c;
+    margin: 0;
+  }
+  
+  .error-message {
+    font-size: 32px;
+    margin: 10px 0;
+  }
+  
+  .error-description {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .home-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .home-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .not-found-wrapper {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .not-found-content {
+      text-align: center;
+    }
+  }
+  
