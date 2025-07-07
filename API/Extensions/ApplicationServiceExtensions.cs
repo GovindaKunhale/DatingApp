@@ -1,4 +1,5 @@
 using System;
+using API.Data;
 using API.Interfaces;
 using API.Services;
 using DatingApp.API.Data;
@@ -18,6 +19,8 @@ public static class ApplicationServiceExtensions
         services.AddCors();
 
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddAutoMapper(typeof(Program));
 
         return services;
 
