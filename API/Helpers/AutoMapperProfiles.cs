@@ -15,7 +15,9 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain)!.Url));    // ! for null referance warning, assuming there's always a main photo
 
         CreateMap<Photo, PhotoDto>();
-
         CreateMap<MemberUpdateDto, AppUser>();
+        CreateMap<RegisterDto, AppUser>();
+
+        CreateMap<string, DateOnly>().ConvertUsing(s => DateOnly.Parse(s));
     }
 }

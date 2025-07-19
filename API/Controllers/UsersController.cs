@@ -70,6 +70,8 @@ namespace DatingApp.API.Controllers
                 PublicId = result.PublicId
             };
 
+            if (user.Photos.Count == 0) photo.IsMain = true;    //if user is uploading the first photo, it will be set as main photo
+
             user.Photos.Add(photo);
 
             if (await userRepository.SaveAllAsync())

@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using API.DTOs;
 using API.Interfaces;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(DataContext context, ITokenService tokenService) : BaseApiController
+public class AccountController(DataContext context, ITokenService tokenService, IMapper mapper) : BaseApiController
 {
     [HttpPost("register")] //account/register
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
@@ -19,25 +20,26 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         {
             return BadRequest("Username is taken");
         }
-        return Ok();
         
-        // using var hmac = new HMACSHA512();
+        using var hmac = new HMACSHA512();
 
-        // var user = new AppUser
-        // {
-        //     UserName = registerDto.Username.ToLower(),
-        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-        //     PasswordSalt = hmac.Key
-        // };
+        var user = mapper.Map<AppUser>(registerDto);
 
-        // context.Users.Add(user);
-        // await context.SaveChangesAsync();
+        user.UserName = registerDto.Username.ToLower();
 
-        // return new UserDto
-        // {
-        //     Username = user.UserName,
-        //     Token = tokenService.CreateToken(user)
-        // };
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+
+        user.PasswordSalt = hmac.Key;
+
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = tokenService.CreateToken(user),
+            KnownAs = user.KnownAs
+        };
     }
 
     [HttpPost("login")] //account/login
@@ -67,7 +69,8 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         {
             Username = user.UserName,
             Token = tokenService.CreateToken(user),
-            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+            KnownAs = user.KnownAs
         };
     }
 
